@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Avaliador de Texto</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+</head>
+<body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+
+  <h2>🔔 Notificação Estilo Nubank</h2>
+  <p>Clique no botão abaixo para permitir e testar uma notificação Nubank-like.</p>
+
+  <button onclick="mostrarNotificacao(1900)" style="padding: 12px 24px; font-size: 16px;">Simular Notificação</button>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registrado com sucesso'))
+        .catch(err => console.log('Erro ao registrar o Service Worker', err));
+    }
+
+    function mostrarNotificacao(valor) {
+      if (!("Notification" in window)) {
+        alert("Este navegador não suporta notificações.");
+        return;
+      }
+
+      if (Notification.permission === "granted") {
+        criarNotificacao(valor);
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            criarNotificacao(valor);
+          } else {
+            alert("Permissão negada para notificações.");
+          }
+        });
+      } else {
+        alert("Permissão para notificações já foi negada.");
+      }
+    }
+
+    function criarNotificacao(valor) {
+      const notificacao = new Notification("💰 Transferência recebida", {
+        body: `Recebemos sua transferência de R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}.`,
+        icon: "icon-192.png",
+        requireInteraction: true
+      });
+
+      notificacao.onclick = () => {
+        window.focus();
+        window.location.href = "/";
+      };
+    }
+  </script>
+
+</body>
+</html>
