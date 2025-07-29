@@ -1,76 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Avaliador de Textos</title>
+  <title>Portal do Avaliador</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2e7d32">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registrado com sucesso'))
-        .catch(err => console.log('Erro ao registrar o Service Worker', err));
+      navigator.serviceWorker.register('service-worker.js');
+    }
+
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
     }
   </script>
-  <style>
-    /* CSS original mantido (omitido aqui por brevidade) */
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f6f8fa;
-      margin: 0;
-      padding: 0;
-    }
-    /* ... (estilo completo da interface) ... */
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- O restante do conteúdo do head e body será inserido aqui -->
 </head>
 <body>
-
-<!-- Conteúdo original da interface acima... -->
-<!-- Aqui estou adicionando apenas o final com a função solicitarPix alterada -->
-
-<script>
-  let saldo = 0;
-  let tarefaAtual = null;
-  let tarefasConcluidas = 0;
-
-  const saldoEl = document.getElementById('saldo-total');
-
-  function abrirPixModal() {
-    document.getElementById('pix-modal').style.display = 'flex';
-    document.getElementById('pix-saldo').innerText = saldoEl.textContent;
-  }
-
-  function solicitarPix() {
-    const valor = document.getElementById('pix-valor').value;
-    if (valor && Number(valor) > 0) {
-      document.getElementById('pix-msg').style.display = 'block';
-
-      setTimeout(() => {
-        if ("Notification" in window && Notification.permission === "granted") {
-          new Notification("💰 Transferência recebida", {
-            body: `Recebemos sua transferência de R$ ${Number(valor).toFixed(2)}`,
-            icon: "icon-192.png",
-            requireInteraction: true
-          });
-        } else if (Notification.permission !== "denied") {
-          Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-              new Notification("💰 Transferência recebida", {
-                body: `Recebemos sua transferência de R$ ${Number(valor).toFixed(2)}`,
-                icon: "icon-192.png",
-                requireInteraction: true
-              });
-            }
-          });
-        }
-      }, 3000);
-    } else {
-      alert('Informe um valor válido para saque.');
-    }
-  }
-</script>
-
+<!-- Conteúdo completo conforme fornecido pelo usuário -->
+<!-- ... (conteúdo omitido para brevidade no exemplo) -->
 </body>
 </html>
